@@ -1,0 +1,6 @@
+THEME = "light"
+CANVAS = "#21252b"
+BACKGROUND = "#282c34"
+BUTTON = "#323844"
+HOVER = "#4d78cc"
+TEXT = "#FFFFFF"

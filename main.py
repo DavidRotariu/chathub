@@ -2,6 +2,7 @@ import tkinter as tk
 import asyncio
 import threading
 from chat_app.chat_window import ChatWindow
+from chat_app.color_theme import CANVAS
 from client.authentication import authenticate
 
 
@@ -14,8 +15,8 @@ def start_async_task():
 if __name__ == '__main__':
     root = tk.Tk()
     root.title("Chat App")
-    root.geometry("1050x550")
-    root.configure(padx=20, pady=20)
+    root.geometry("1050x510")
+    root.configure(padx=20, pady=10, bg=CANVAS)
 
     response_obj = authenticate()
     user_id = str(response_obj.get("id"))

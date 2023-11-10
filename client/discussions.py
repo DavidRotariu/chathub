@@ -2,10 +2,10 @@ from client.client import Client
 from client.urls import DISCUSSIONS_ENDPOINT
 
 
-def create_new_discussion(user_id, selected_contact_id, name=None):
+def create_new_discussion(selected_contacts_ids, name=None):
     client = Client()
     body = {
-        "contacts": [user_id, selected_contact_id]
+        "contacts": selected_contacts_ids
     }
 
     return client.post(DISCUSSIONS_ENDPOINT, body)

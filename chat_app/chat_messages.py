@@ -5,6 +5,7 @@ from tkinter import messagebox
 
 import websockets
 
+from chat_app.color_theme import BUTTON, TEXT, HOVER
 from chat_app.settings import PORT, DOMAIN
 from client.messages import get_messages, create_new_message
 
@@ -72,11 +73,11 @@ class ChatMessages(tk.Frame):
                                                    height=60,
                                                    width=100,
                                                    corner_radius=8,
-                                                   fg_color="#5c8efc",
-                                                   border_color="#4B73C9",
-                                                   border_width=2,
-                                                   hover_color="#4B73C9",
-                                                   text_color="white",
+                                                   fg_color=BUTTON,
+                                                   border_color=BUTTON,
+                                                   border_width=1,
+                                                   hover_color=HOVER,
+                                                   text_color=TEXT,
                                                    font=("Helvetica", 18, "bold"),
                                                    command=self.send_message)
         self.send_button.pack(side="right", fill=tk.X)
