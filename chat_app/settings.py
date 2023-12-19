@@ -1,6 +1,6 @@
 PORT = "8000"
-DOMAIN = "172.20.10.2"
+DOMAIN = "172.16.1.43"
 
 BASE_URL = f"http://{DOMAIN}:{PORT}"
-USER_NAME = "pol"
+USER_NAME = "ion"
 PASSWORD = "test123"

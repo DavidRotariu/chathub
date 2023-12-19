@@ -121,7 +121,8 @@ class ChatMessages(tk.Frame):
         for message in messages:
             name = message["name"]
             value = message["value"]
-            message_text = f"{name}: {value}\n\n"
+            time = message["created_at"]
+            message_text = f"[{time[-8:]}] {name}: {value}\n\n"
             self.chat_text.insert(tk.END, message_text)
 
     def create_new_chat_messages(self, message):
