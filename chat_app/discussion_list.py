@@ -2,10 +2,29 @@ import tkinter as tk
 from tkinter import ttk
 import customtkinter
 
-from chat_app.color_theme import CANVAS, TEXT, BUTTON, HOVER, BACKGROUND
+from chat_app.color_theme import CANVAS, TEXT, BUTTON, HOVER
 from chat_app.settings import USER_NAME
-from client.contacts import get_contacts
+from client.contacts import get_contact, get_contacts
 from client.discussions import create_new_discussion, get_discussions
+
+
+def calculate_name(user_id, discussion):
+    contacts = discussion.get("contacts", [])
+
+    yourself = contacts[0] == contacts[1] and len(contacts) == 2
+    if user_id in contacts:
+        if not yourself:
+            text = ""
+            for contact in contacts:
+                if user_id != contact:
+                    text = text + get_contact(contact)["name"] + ", "
+            return text[:-2]
+        else:
+            contact = contacts[0]
+            if user_id == contact:
+                return "You"
+
+    return "error"
 
 
 class DiscussionList(tk.Frame):
@@ -20,16 +39,6 @@ class DiscussionList(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        """theme_button = customtkinter.CTkButton(self, text="",
-                                               width=25,
-                                               height=25,
-                                               corner_radius=25,
-                                               fg_color=BUTTON,
-                                               border_color=BUTTON,
-                                               border_width=1,
-                                               hover_color=HOVER,
-                                               command=change_theme)
-        theme_button.pack(pady=5)"""
 
         label = customtkinter.CTkLabel(self, text=f"Hello {USER_NAME}",
                                        text_color=TEXT,
@@ -51,20 +60,12 @@ class DiscussionList(tk.Frame):
                                                           command=self.contact_window)
         self.button_discussions.pack(fill=tk.X)
 
-        """style = ttk.Style()
-        style.configure("Treeview",
-                        background=BACKGROUND,
-                        fieldbackground=BACKGROUND,
-                        foreground="red",
-                        relief="flat")
-        style.map("Treeview", background=[("active", "who cares")])"""
-
         self.listbox_discussions = ttk.Treeview(self, style="Treeview", selectmode="browse")
         self.listbox_discussions.pack(fill=tk.BOTH, expand=True, pady=10, ipadx=20)
         self.listbox_discussions.heading("#0", text="Chats")
 
         for discussion in discussions:
-            self.listbox_discussions.insert('', 'end', text=discussion["name"], value=discussion["id"])
+            self.listbox_discussions.insert('', 'end', text=calculate_name(self.user_id, discussion), value=discussion["id"])
 
     def contact_window(self):
         contact_popup = tk.Toplevel(self)
@@ -93,14 +94,10 @@ class DiscussionList(tk.Frame):
                 for i in range(0, n):
                     selected_contacts_id.append(selected_discussion[i]["values"][0])
 
-                text = ""
-                for i in range(0, n - 1):
-                    text = text + str(selected_discussion[i]["text"]) + ", "
-                text = text + str(selected_discussion[n - 1]["text"])
 
                 discussion = create_new_discussion(selected_contacts_id)
                 if discussion:
-                    self.listbox_discussions.insert('', 'end', text=text, values=(discussion["id"]))
+                    self.listbox_discussions.insert('', 'end', text=calculate_name(self.user_id, discussion), value=discussion["id"])
 
                 contact_popup.destroy()
 

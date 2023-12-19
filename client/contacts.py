@@ -8,3 +8,13 @@ def get_contacts():
         return []
 
     return contacts
+
+
+def get_contact(user_id):
+
+    contact = Client().get(f"{CONTACTS_ENDPOINT}/{user_id}")
+
+    if not contact:
+        return []
+
+    return contact
